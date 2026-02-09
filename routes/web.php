@@ -3,12 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
-Livewire::setUpdateRoute(function ($handle) {
-    return Route::post(env('PUBLIC_PATH') . '/livewire/update', $handle);
+$path = parse_url(config('app.url'), PHP_URL_PATH) ?? '';
+
+Livewire::setUpdateRoute(function ($handle) use ($path) {
+    return Route::post($path . '/livewire/update', $handle);
 });
 
-Livewire::setScriptRoute(function ($handle) {
-    return Route::get(env('APP_URL') . '/livewire/livewire.js', $handle);
+Livewire::setScriptRoute(function ($handle) use ($path) {
+    return Route::get($path . '/livewire/livewire.js', $handle);
 });
 
 Route::get('/', function () {
